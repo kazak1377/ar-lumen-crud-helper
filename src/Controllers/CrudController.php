@@ -18,7 +18,9 @@ class CrudController extends Controller {
     public function create() {
         $data = Input::all();
         $newObject = new $this->classname();
-        $vhelper = $this->updateFields($newObject, $data);
+        $vhelper = $this->updateFields(
+            $newObject, $data, $this->classname
+        );
         return $this->saveCreateModel($newObject, $vhelper);
     }
 
@@ -26,14 +28,13 @@ class CrudController extends Controller {
         /** @noinspection PhpUndefinedMethodInspection */
         $model = $this->classname::whereId($id)->first();
         return $this->sendOneEntity($model, $this->classname);
-
     }
 
     public function update($id) {
         /** @noinspection PhpUndefinedMethodInspection */
         $model = $this->classname::whereId($id)->first();
         $data = Input::all();
-        $vhelper = $this->updateFields($model, $data);
+        $vhelper = $this->updateFields($model, $data, $this->classname);
         return $this->saveUpdateModel($model, $vhelper, $this->classname, $id);
     }
 

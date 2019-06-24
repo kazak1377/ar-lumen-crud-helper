@@ -24,14 +24,15 @@ class Controller extends BaseController
      * @param BaseModel|null $model
      * @param $fields
      *
+     * @param string $class
+     *
      * @return ValidationHelper
      */
-    public function updateFields(&$model, $fields) {
-        $class = Reflection::modelName($model);
+    public function updateFields(&$model, $fields, $class = '') {
         if (is_null($model)) {
             new ValidationHelper($class);
         }
-
+        $class = Reflection::modelName($model);
         $v = Validator::make($fields, $model->rules);
         foreach ($fields as $key => $value) {
             if ($model->have($key) && !empty($value)) {
