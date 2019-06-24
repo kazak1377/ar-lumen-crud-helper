@@ -45,7 +45,7 @@ class Controller extends BaseController
 
     private function getNoSuchEntityError($name, $id) {
         $error = new NoSuchEntityError($name);
-        $desc = $name . "with id = ".$id ." not found";
+        $desc = $name . " with id = ".$id ." not found";
         $error->setDescription($desc);
         return $error;
     }
