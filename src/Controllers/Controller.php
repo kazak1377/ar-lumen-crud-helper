@@ -43,6 +43,13 @@ class Controller extends BaseController
         return new ValidationHelper($class, $v);
     }
 
+    private function getNoSuchEntityError($name, $id) {
+        $error = new NoSuchEntityError($name);
+        $desc = $name . "with id = ".$id ." not found";
+        $error->setDescription($desc);
+        return $error;
+    }
+
     /**
      * @param BaseModel $model
      * @param ValidationHelper $vhelper
@@ -81,7 +88,7 @@ class Controller extends BaseController
     public function saveUpdateModel(&$model, $vhelper, $name = "", $id = -1) {
         if (is_null($model)) {
             return (new UpdatedResponse($name, $id))
-                ->setError(new NoSuchEntityError($name))
+                ->setError($this->getNoSuchEntityError($name, $id))
                 ->send();
         }
         return $this->saveModel($model, $vhelper, false);
@@ -114,13 +121,15 @@ class Controller extends BaseController
      * @param BaseModel|null $model
      * @param $name
      *
+     * @param int $id
+     *
      * @return Response
      */
-    public function deleteModel($model, $name) {
+    public function deleteModel($model, $name, $id = -1) {
         $key = 'deleted';
         if (empty($model)) {
             return (new DeletedResponse($name))
-                ->setError(new NoSuchEntityError($name))
+                ->setError($this->getNoSuchEntityError($name, $id))
                 ->send();
         } elseif ($model->have($key)) {
             try {

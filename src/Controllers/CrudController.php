@@ -41,7 +41,7 @@ class CrudController extends Controller {
     public function delete($id) {
         /** @noinspection PhpUndefinedMethodInspection */
         $model = $this->classname::whereId($id)->first();
-        return $this->deleteModel($model, $this->classname);
+        return $this->deleteModel($model, $this->classname, $id);
     }
 
     public function getList() {
