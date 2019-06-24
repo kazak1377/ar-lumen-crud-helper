@@ -30,7 +30,7 @@ class Controller extends BaseController
      */
     public function updateFields(&$model, $fields, $class = '') {
         if (is_null($model)) {
-            new ValidationHelper($class);
+            return new ValidationHelper($class);
         }
         $class = Reflection::modelName($model);
         $v = Validator::make($fields, $model->rules);
