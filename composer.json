@@ -1,0 +1,32 @@
+{
+    "name": "altrecipe/lumen-crud",
+    "type": "library",
+    "description": "Some code to make CRUD controllers for almost any model",
+    "keywords": ["helpers","internal","altRecipe"],
+    "homepage": "https://altrecipe.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maxim Kozachenko",
+            "email": "mk@altrecipe.com",
+            "role": "CEO"
+        }
+    ],
+    "repositories": [
+        {
+            "type" : "vcs",
+            "url": "https://github.com/kazak1377/ar-helpers"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "laravel/lumen-framework": "5.8.*",
+        "altrecipe/helpers": "dev-master",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ARCrud\\": "src"
+        }
+    }
+}
