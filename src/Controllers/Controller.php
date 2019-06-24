@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace ARCrud\Controllers;
 
 use ArHelpers\Errors\DeletingError;
 use ArHelpers\Errors\NoSuchEntityError;

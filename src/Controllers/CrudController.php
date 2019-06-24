@@ -6,7 +6,7 @@
  * Time: 12:22
  */
 
-namespace App\Http\Controllers;
+namespace ARCrud\Controllers;
 
 
 use ArHelpers\Response\DataReturnResponse;
