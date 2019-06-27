@@ -21,6 +21,7 @@
     "require": {
         "php": ">=7.3",
         "laravel/lumen-framework": "5.8.*",
+        "intervention/image": "^2.5",
         "altrecipe/helpers": "dev-master",
         "ext-json": "*"
     },
