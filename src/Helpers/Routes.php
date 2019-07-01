@@ -39,9 +39,9 @@ class Routes {
         ],
     ];
 
-    public static function crud(Router $router) {
+    public static function crud(Router $router, $controller) {
         foreach (self::CRUD as $action => $params) {
-            $controllerAction = "Api\LottoController@{$action}";
+            $controllerAction = "{$controller}@{$action}";
             $router->{$params['method']}($params['uri'], $controllerAction);
         }
     }
