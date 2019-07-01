@@ -9,7 +9,7 @@
 namespace ARCrud\Helpers;
 
 
-use Illuminate\Routing\Router;
+use Laravel\Lumen\Routing\Router;
 
 class Routes {
     const CRUD = [
