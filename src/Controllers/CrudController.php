@@ -9,7 +9,9 @@
 namespace ARCrud\Controllers;
 
 
+use ArHelpers\Errors\RestoringError;
 use ArHelpers\Response\DataReturnResponse;
+use ArHelpers\Response\RestoredResponse;
 use Illuminate\Support\Facades\Input;
 
 class CrudController extends Controller {
@@ -50,5 +52,17 @@ class CrudController extends Controller {
         return (new DataReturnResponse())
             ->setData($data)
             ->send();
+    }
+
+    public function restore($id) {
+        /** @noinspection PhpUndefinedMethodInspection */
+        if ($this->classname::withTrashed()->where('id', $id)->restore()) {
+            return (new RestoredResponse($this->classname, $id))
+                ->send();
+        } else {
+            return (new RestoredResponse($this->classname, $id))
+                ->setError(new RestoringError($this->classname, $id))
+                ->send();
+        }
     }
 }
