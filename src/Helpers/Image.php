@@ -51,7 +51,7 @@ class Image {
     }
 
     protected function getPublicPath() {
-        return '/public/'.$this->fileName;
+        return '/uploads/'.$this->fileName;
     }
 
     public function upload() {
