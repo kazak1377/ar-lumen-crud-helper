@@ -45,4 +45,13 @@ class Routes {
             $router->{$params['method']}($params['uri'], $controllerAction);
         }
     }
+
+    public static function uploadImage(Router $router, $controller) {
+        $router->post('/upload-image',
+            "{$controller}@uploadImage");
+        $router->post('/delete-image',
+            "{$controller}@deleteImage");
+        $router->post('/upload-directly-image',
+            "{$controller}@uploadWithoutResizing");
+    }
 }

@@ -9,6 +9,8 @@
 namespace ARCrud\Traits;
 
 use ARCrud\Helpers\Image;
+use ArHelpers\Errors\DeletingError;
+use ArHelpers\Response\ImageDeletedResponse;
 use ArHelpers\Response\ImageUploadedResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Input;
@@ -29,5 +31,31 @@ trait ImageUploadTrait {
             ->setData([
                 'imgPath' => $image->publicPath
             ])->send();
+    }
+
+    public function uploadWithoutResizing() {
+        /** @var UploadedFile $image */
+        $image = Input::file('image');
+        $image = new Image($image);
+        $image->upload();
+        return (new ImageUploadedResponse())
+            ->setData([
+                'imgPath' => $image->publicPath
+            ])->send();
+    }
+
+    public function deleteImage() {
+        $imgPublicUrl = Input::get('url');
+        $imgPathExpl = explode('/', $imgPublicUrl);
+        $fileName = end($imgPathExpl);
+        $localPath = "/public/uploads/{$fileName}";
+        if (unlink($localPath)) {
+            return (new ImageDeletedResponse())
+                ->send();
+        } else {
+            return (new ImageDeletedResponse())
+                ->setError(new DeletingError($imgPublicUrl))
+                ->send();
+        }
     }
 }
