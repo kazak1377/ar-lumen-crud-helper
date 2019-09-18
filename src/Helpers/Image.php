@@ -9,7 +9,7 @@
 namespace ARCrud\Helpers;
 
 use Illuminate\Http\UploadedFile;
-use Intervention\Image\Facades\Image as IImage;
+use Intervention\Image\ImageManagerStatic as IImage;
 use Throwable;
 
 /**
