@@ -37,6 +37,10 @@ class Routes {
             'method' => 'get',
             'uri' => '/lists'
         ],
+        'listDeleted' => [
+            'method' => 'get',
+            'uri' => '/trash'
+        ]
     ];
 
     public static function crud(Router $router, $controller) {

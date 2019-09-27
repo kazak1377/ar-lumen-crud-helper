@@ -65,4 +65,12 @@ class CrudController extends Controller {
                 ->send();
         }
     }
+
+    public function listDeleted() {
+        /** @noinspection PhpUndefinedMethodInspection */
+        $data = $this->classname::onlyTrashed()->get();
+        return (new DataReturnResponse())
+            ->setData($data)
+            ->send();
+    }
 }
