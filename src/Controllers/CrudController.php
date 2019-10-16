@@ -12,13 +12,14 @@ namespace ARCrud\Controllers;
 use ArHelpers\Errors\RestoringError;
 use ArHelpers\Response\DataReturnResponse;
 use ArHelpers\Response\RestoredResponse;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+
 
 class CrudController extends Controller {
     protected $classname;
 
     public function create() {
-        $data = Input::all();
+        $data = Request::input();
         $newObject = new $this->classname();
         $vhelper = $this->updateFields(
             $newObject, $data, $this->classname
@@ -35,7 +36,7 @@ class CrudController extends Controller {
     public function update($id) {
         /** @noinspection PhpUndefinedMethodInspection */
         $model = $this->classname::whereId($id)->first();
-        $data = Input::all();
+        $data = Request::input();
         $vhelper = $this->updateFields($model, $data, $this->classname);
         return $this->saveUpdateModel($model, $vhelper, $this->classname, $id);
     }

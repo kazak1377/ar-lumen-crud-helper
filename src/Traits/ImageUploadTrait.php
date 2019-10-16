@@ -13,14 +13,14 @@ use ArHelpers\Errors\DeletingError;
 use ArHelpers\Response\ImageDeletedResponse;
 use ArHelpers\Response\ImageUploadedResponse;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Intervention\Image\Constraint;
 
 trait ImageUploadTrait {
 
     public function uploadImage() {
         /** @var UploadedFile $image */
-        $image = Input::file('image');
+        $image = Request::file('image');
         $image = new Image($image);
         $image->img->resize(1024, NULL,
             function (Constraint $constraint) {
@@ -35,7 +35,7 @@ trait ImageUploadTrait {
 
     public function uploadWithoutResizing() {
         /** @var UploadedFile $image */
-        $image = Input::file('image');
+        $image = Request::file('image');
         $image = new Image($image);
         $image->upload();
         return (new ImageUploadedResponse())
@@ -45,7 +45,7 @@ trait ImageUploadTrait {
     }
 
     public function deleteImage() {
-        $imgPublicUrl = Input::get('url');
+        $imgPublicUrl = Request::input('url');
         $imgPathExpl = explode('/', $imgPublicUrl);
         $fileName = end($imgPathExpl);
         $localPath = "/public/uploads/{$fileName}";
