@@ -40,6 +40,10 @@ class Routes {
         'listDeleted' => [
             'method' => 'get',
             'uri' => '/trash'
+        ],
+        'listByIds' => [
+            'method' => 'post',
+            'uri' => '/list-by-ids'
         ]
     ];
 

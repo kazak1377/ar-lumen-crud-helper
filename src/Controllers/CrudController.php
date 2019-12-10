@@ -9,7 +9,9 @@
 namespace ARCrud\Controllers;
 
 
+use ARCrud\Controllers\Traits\CrudControllerHelpersTrait;
 use ArHelpers\Errors\RestoringError;
+use ArHelpers\Helpers\RequestValidationTrait;
 use ArHelpers\Response\DataReturnResponse;
 use ArHelpers\Response\RestoredResponse;
 use Illuminate\Support\Facades\Request;
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Request;
 
 class CrudController extends Controller {
     protected $classname;
+    use RequestValidationTrait;
+    use CrudControllerHelpersTrait;
 
     public function create() {
         $data = Request::input();
@@ -70,6 +74,19 @@ class CrudController extends Controller {
     public function listDeleted() {
         /** @noinspection PhpUndefinedMethodInspection */
         $data = $this->classname::onlyTrashed()->get();
+        return (new DataReturnResponse())
+            ->setData($data)
+            ->send();
+    }
+
+    public function listByIds() {
+        $this->validateListByIdsRequest();
+        $ids = Request::input('ids');
+        $relations = Request::input('relations');
+        $this->validateModelRelations($relations);
+
+        /** @noinspection PhpUndefinedMethodInspection */
+        $data = $this->classname::whereIn('id', $ids)->with($relations)->get();
         return (new DataReturnResponse())
             ->setData($data)
             ->send();
