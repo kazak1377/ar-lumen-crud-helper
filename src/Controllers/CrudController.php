@@ -52,8 +52,10 @@ class CrudController extends Controller {
     }
 
     public function getList() {
+        $pagination = Request::input('pagination') ?? false;
         /** @noinspection PhpUndefinedMethodInspection */
-        $data = $this->classname::all();
+        $data = $pagination ? $this->classname::paginate(10) :
+            $this->classname::all();
         return (new DataReturnResponse())
             ->setData($data)
             ->send();
