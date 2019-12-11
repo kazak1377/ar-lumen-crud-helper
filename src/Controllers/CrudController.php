@@ -82,7 +82,7 @@ class CrudController extends Controller {
     public function listByIds() {
         $this->validateListByIdsRequest();
         $ids = Request::input('ids');
-        $relations = Request::input('relations');
+        $relations = Request::input('relations') ?? [];
         $this->validateModelRelations($relations);
 
         /** @noinspection PhpUndefinedMethodInspection */
