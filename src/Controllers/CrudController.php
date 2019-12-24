@@ -11,9 +11,12 @@ namespace ARCrud\Controllers;
 
 use ARCrud\Controllers\Traits\CrudControllerHelpersTrait;
 use ArHelpers\Errors\RestoringError;
+use ArHelpers\Errors\ValidationError;
 use ArHelpers\Helpers\RequestValidationTrait;
 use ArHelpers\Response\DataReturnResponse;
+use ArHelpers\Response\ErrorResponse;
 use ArHelpers\Response\RestoredResponse;
+use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Support\Facades\Request;
 
 
@@ -85,12 +88,20 @@ class CrudController extends Controller {
         $this->validateListByIdsRequest();
         $ids = Request::input('ids');
         $relations = Request::input('relations') ?? [];
-        $this->validateModelRelations($relations);
 
-        /** @noinspection PhpUndefinedMethodInspection */
-        $data = $this->classname::whereIn('id', $ids)->with($relations)->get();
-        return (new DataReturnResponse())
-            ->setData($data)
-            ->send();
+        try {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $data = $this->classname::whereIn('id', $ids)
+                ->with($relations)->get();
+            return (new DataReturnResponse())
+                ->setData($data)
+                ->send();
+        } catch (RelationNotFoundException $e) {
+            $error = new ValidationError($this->classname);
+            $error->setDescription([$e->getMessage()]);
+            return (new ErrorResponse())
+                ->setError($error)
+                ->send();
+        }
     }
 }
