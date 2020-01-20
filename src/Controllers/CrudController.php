@@ -88,11 +88,14 @@ class CrudController extends Controller {
         $this->validateListByIdsRequest();
         $ids = Request::input('ids');
         $relations = Request::input('relations') ?? [];
-
+        $perPage = Request::input('perPage') ?? 0;
         try {
             /** @noinspection PhpUndefinedMethodInspection */
-            $data = $this->classname::whereIn('id', $ids)
-                ->with($relations)->get();
+            $data = $perPage != 0 ?
+                $this->classname::whereIn('id', $ids)
+                    ->with($relations)->paginate($perPage) :
+                $this->classname::whereIn('id', $ids)
+                    ->with($relations)->get();
             return (new DataReturnResponse())
                 ->setData($data)
                 ->send();
