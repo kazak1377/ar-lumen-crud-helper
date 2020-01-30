@@ -67,6 +67,8 @@ class Controller extends BaseController
             return $resp->send();
         }
         if ($model->save()) {
+            $model->refresh();
+            $resp->setData($model);
             return $resp->send();
         } else {
             $error = new SavingError($class);
