@@ -5,11 +5,13 @@ namespace ARCrud\Controllers;
 use ArHelpers\Errors\DeletingError;
 use ArHelpers\Errors\NoSuchEntityError;
 use ArHelpers\Errors\SavingError;
+use ArHelpers\Errors\UnhandledExceptionError;
 use ArHelpers\Helpers\Reflection;
 use ArHelpers\Helpers\ValidationHelper;
 use ArHelpers\Response\CreatedResponse;
 use ArHelpers\Response\DataReturnResponse;
 use ArHelpers\Response\DeletedResponse;
+use ArHelpers\Response\ErrorResponse;
 use ArHelpers\Response\UpdatedResponse;
 use ArHelpers\Models\Base\BaseModel;
 use Exception;
@@ -157,6 +159,37 @@ class Controller extends BaseController
             return (new DeletedResponse($name))
                 ->setError($error)
                 ->send();
+        }
+    }
+
+    /**
+     * @param BaseModel|null $model
+     * @param $name
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function destroyModel($model, $name, $id = -1) {
+        $key = 'deleted';
+        if (empty($model)) {
+            return (new DeletedResponse($name))
+                ->setError($this->getNoSuchEntityError($name, $id))
+                ->send();
+        } elseif ($model->have($key)) {
+            $model->forceDelete();
+            return (new DeletedResponse($name))
+                ->send();
+        } else {
+            try {
+                $model->delete();
+                return (new DeletedResponse($name))
+                    ->send();
+            } catch (Exception $e) {
+                return (new ErrorResponse())
+                    ->setError(new UnhandledExceptionError($e))
+                    ->send();
+            }
         }
     }
 }

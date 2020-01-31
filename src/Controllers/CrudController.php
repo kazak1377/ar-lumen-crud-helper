@@ -13,6 +13,7 @@ use ARCrud\Controllers\Traits\CrudControllerHelpersTrait;
 use ArHelpers\Errors\RestoringError;
 use ArHelpers\Errors\ValidationError;
 use ArHelpers\Helpers\RequestValidationTrait;
+use ArHelpers\Models\Base\BaseModel;
 use ArHelpers\Response\DataReturnResponse;
 use ArHelpers\Response\ErrorResponse;
 use ArHelpers\Response\RestoredResponse;
@@ -51,6 +52,13 @@ class CrudController extends Controller {
     public function delete($id) {
         /** @noinspection PhpUndefinedMethodInspection */
         $model = $this->classname::whereId($id)->first();
+        return $this->deleteModel($model, $this->classname, $id);
+    }
+
+    public function destroy($id) {
+        /** @var BaseModel $class */
+        $class = $this->classname;
+        $model = $class::find($id);
         return $this->deleteModel($model, $this->classname, $id);
     }
 

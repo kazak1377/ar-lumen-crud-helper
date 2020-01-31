@@ -29,6 +29,10 @@ class Routes {
             'method' => 'delete',
             'uri' => '/{id:[0-9]+}'
         ],
+        'destroy' => [
+            'method' => 'delete',
+            'uri' => '/destroy/{id:[0-9]+}'
+        ],
         'restore' => [
             'method' => 'post',
             'uri' => '/restore/{id:[0-9]+}'
