@@ -59,7 +59,7 @@ class CrudController extends Controller {
         /** @var BaseModel $class */
         $class = $this->classname;
         $model = $class::find($id);
-        return $this->deleteModel($model, $this->classname, $id);
+        return $this->destroyModel($model, $this->classname, $id);
     }
 
     public function getList() {

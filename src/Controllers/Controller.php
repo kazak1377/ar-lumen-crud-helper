@@ -37,7 +37,7 @@ class Controller extends BaseController
         $class = Reflection::modelName($model);
         $v = Validator::make($fields, $model->rules);
         foreach ($fields as $key => $value) {
-            if ($model->have($key) && !empty($value)) {
+            if ($model->have($key)) {
                 $model->$key = $value ?? ' ';
             }
         }
