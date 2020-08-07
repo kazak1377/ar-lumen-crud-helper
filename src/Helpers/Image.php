@@ -9,6 +9,7 @@
 namespace ARCrud\Helpers;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as IImage;
 use Throwable;
 
@@ -34,7 +35,7 @@ class Image {
     }
 
     protected function getFileName() {
-        return md5($this->file->getClientOriginalName())
+        return Str::random(10)
             . time()
             . "."
             . $this->file->extension();
