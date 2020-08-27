@@ -32,7 +32,7 @@ class Image {
         $this->file = $file;
         $this->img = IImage::make($this->file->getRealPath());
         $this->uploadFolder = base_path() . '/public/uploads/';
-        $this->fileName = time() . "." . $this->file->extension();
+        $this->fileName = md5(time()) . "." . $this->file->extension();
     }
 
     public function prepareFolder() {
