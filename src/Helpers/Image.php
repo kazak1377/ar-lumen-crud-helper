@@ -25,18 +25,14 @@ class Image {
     private $file;
     /** @var Image */
     public $img;
+    public $fileName;
     private $uploadFolder;
 
     public function __construct(UploadedFile $file) {
         $this->file = $file;
         $this->img = IImage::make($this->file->getRealPath());
         $this->uploadFolder = base_path() . '/public/uploads/';
-    }
-
-    protected function getFileName() {
-        return time()
-            . "."
-            . $this->file->extension();
+        $this->fileName = time() . "." . $this->file->extension();
     }
 
     public function prepareFolder() {
