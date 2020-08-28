@@ -38,7 +38,7 @@ class Controller extends BaseController
         $v = Validator::make($fields, $model->rules);
         foreach ($fields as $key => $value) {
             if ($model->have($key)) {
-                $model->$key = $value ?? ' ';
+                $model->$key = $value;
             }
         }
 
